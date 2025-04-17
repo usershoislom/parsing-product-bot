@@ -1,36 +1,29 @@
 import time
 
-import requests
-from bs4 import BeautifulSoup
-
+import undetected_chromedriver as uc
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions
+
+from config.logger import logger
 
 
 def get_price_from_xpath(url: str, xpath: str):
     try:
-        options = Options()
-        options.add_argument("--headless")
-        driver = webdriver.Chrome(options=options)
-
+        driver = uc.Chrome()
         driver.get(url)
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, xpath))
-        )
 
-        element = driver.find_element(By.XPATH, xpath)
+        element = WebDriverWait(driver, 10).until(expected_conditions.presence_of_element_located((By.XPATH, xpath)))
 
-        if not element:
-            print("Цена не найдена")
+        price = element.text.strip()
+        if not price:
             return None
 
-        return element.text
+        return price
     except Exception as e:
-        print(f"Ошибка при парсинге: {e}")
+        logger.error(f"Error while parsing: {e}")
         return None
     finally:
         driver.quit()

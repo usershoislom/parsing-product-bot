@@ -3,10 +3,12 @@ import asyncio
 from aiogram import Bot, Dispatcher
 
 from config.config import BOT_TOKEN
+from config.logger import logger
 from handlers import user_handlers
 
 
 async def main():
+    logger.info("Starting bot")
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher()
 

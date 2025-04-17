@@ -1,7 +1,9 @@
 import sqlite3
 
+from config.logger import logger
 
 DB_NAME = "database.db"
+
 
 def create_database():
     connection = sqlite3.connect(DB_NAME)
@@ -31,5 +33,6 @@ def create_database():
     connection.close()
 
 
+logger.info("Creating database")
 create_database()
-
+logger.info("Database created")

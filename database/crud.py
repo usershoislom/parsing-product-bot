@@ -1,6 +1,7 @@
 import sqlite3
 from database.database import DB_NAME
 
+from config.logger import logger
 
 def save_user_data(user_id: int):
     try:
@@ -12,7 +13,7 @@ def save_user_data(user_id: int):
         ''', (user_id,))
         conn.commit()
     except sqlite3.Error as e:
-        print(f"Не удалось добавить пользователя: {e}")
+        logger.error(f"Couldn't add user - {user_id}:\n {e}")
     finally:
         conn.close()
 
@@ -27,7 +28,7 @@ def save_excel_data(user_id: int, title: str, url: str, xpath: str, price: str):
         ''', (user_id, title, url, xpath, price))
         conn.commit()
     except sqlite3.Error as e:
-        print(f"Не удалось добавить данные: {e}")
+        logger.error(f"Couldn't add data:\n {e}")
     finally:
         conn.close()
 
@@ -44,7 +45,7 @@ def get_user_data(user_id: int):
         ''', (user_id,))
         return cursor.fetchall()
     except sqlite3.Error as e:
-        print(f"Не удалось получить данные из бд: {e}")
+        logger.error(f"Couldn't get data:\n {e}")
         return []
     finally:
         conn.close()
