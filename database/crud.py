@@ -3,6 +3,7 @@ from database.database import DB_NAME
 
 from config.logger import logger
 
+
 def save_user_data(user_id: int):
     try:
         conn = sqlite3.connect(DB_NAME)
