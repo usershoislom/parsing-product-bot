@@ -5,8 +5,10 @@ from logging.handlers import RotatingFileHandler
 
 BASE_DIR = os.path.dirname(os.path.abspath("main.py"))
 LOG_DIR = os.path.join(BASE_DIR, "logs")
+os.makedirs(LOG_DIR, exist_ok=True)
 
 logs_file_path = os.path.join(LOG_DIR, "logs.log")
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
